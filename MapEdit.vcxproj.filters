@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Header Files\DataStructure">
+      <UniqueIdentifier>{6267d2ec-e728-4b0f-ac1d-e914bee6b1da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widget">
+      <UniqueIdentifier>{75592bb8-f641-4c06-9cf8-7d857433ca51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widget">
+      <UniqueIdentifier>{67412a4d-4890-45e6-a266-94a591e465f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataStructure">
+      <UniqueIdentifier>{4fef9c5c-1a79-4bc5-835c-98728ea5f557}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widget\MapEditTool">
+      <UniqueIdentifier>{5ff9d88a-a866-495f-b86b-5aa41c6b3648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataStructure\SystemData">
+      <UniqueIdentifier>{2f15e185-2ee9-4506-ac23-3a6abf4a05c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataStructure\SystemData">
+      <UniqueIdentifier>{a42fb75b-4ebc-4a4b-94ba-a80338622fd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataStructure\SystemData\Graph">
+      <UniqueIdentifier>{2944c050-0b9b-4260-ad8c-7197c2db59e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataStructure\SystemData\Graph\Node">
+      <UniqueIdentifier>{3337884a-aad9-4323-9975-1cc375ddd52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataStructure\SystemData\Graph">
+      <UniqueIdentifier>{d61cb5e1-886c-42fa-abd0-209c027e2733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataStructure\SystemData\Graph\Edge">
+      <UniqueIdentifier>{fecc1042-2a3e-40be-ad62-87e35c5b5d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataStructure\SystemData\Graph\Node">
+      <UniqueIdentifier>{b0073f0b-c4fa-43f3-ada9-004b88faa010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataStructure\SystemData\Graph\Edge">
+      <UniqueIdentifier>{144b1593-35f2-47b9-80b4-88181e63c9f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widget\MapEditTool">
+      <UniqueIdentifier>{21e1cbba-20b8-4091-b7cc-f48d602a0960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widget\MapEditTool\MapDisplay">
+      <UniqueIdentifier>{4dc7b68c-6595-465a-835c-f3767fe7fdd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widget\MapEditTool\MapDisplay">
+      <UniqueIdentifier>{7ecaedb6-4141-4d6c-81c7-321f144507e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="Resource.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditTool.cpp">
+      <Filter>Source Files\Widget\MapEditTool</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Source Files\DataStructure\SystemData\Graph\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Edge.cpp">
+      <Filter>Source Files\DataStructure\SystemData\Graph\Edge</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Source Files\DataStructure\SystemData\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="systemdata2.h">
+      <Filter>Header Files\DataStructure\SystemData</Filter>
+    </ClCompile>
+    <ClCompile Include="systemdata2.cpp">
+      <Filter>Source Files\DataStructure\SystemData</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemData.cpp">
+      <Filter>Source Files\DataStructure\SystemData</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDisplay.cpp">
+      <Filter>Source Files\Widget\MapEditTool\MapDisplay</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Macro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemData.h">
+      <Filter>Header Files\DataStructure\SystemData</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\DataStructure\SystemData\Graph\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Edge.h">
+      <Filter>Header Files\DataStructure\SystemData\Graph\Edge</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Header Files\DataStructure\SystemData\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDisplay.h">
+      <Filter>Header Files\Widget\MapEditTool\MapDisplay</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="MapEditTool.h">
+      <Filter>Header Files\Widget\MapEditTool</Filter>
+    </QtMoc>
+  </ItemGroup>
+</Project>
