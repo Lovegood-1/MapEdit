@@ -88,8 +88,6 @@
     <ClCompile Include="MapDisplay.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="SystemData.cpp" />
-    <ClCompile Include="systemdata2.cpp" />
-    <ClCompile Include="systemdata2.h" />
     <QtRcc Include="Resource.qrc" />
     <QtMoc Include="MapEditTool.h" />
     <ClCompile Include="MapEditTool.cpp" />
@@ -99,7 +97,7 @@
     <ClInclude Include="Edge.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Macro.h" />
-    <ClInclude Include="MapDisplay.h" />
+    <QtMoc Include="MapDisplay.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="SystemData.h" />
   </ItemGroup>

@@ -12,7 +12,7 @@ public:
 	CEdge(const CEdge& edge);
 	~CEdge();
 
-private:
+
 	/*
 	* 边的编号
 	开始节点编号，直接用节点对象
@@ -20,10 +20,10 @@ private:
 	长度
 	*/
 	int m_iEdgeId;
-	CNode m_iNode1;
-	CNode m_iNode2;
+	CNode m_Node1;
+	CNode m_Node2;
 	double  m_dLength;
-
+private:
 
 };
 

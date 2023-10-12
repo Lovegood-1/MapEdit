@@ -9,8 +9,8 @@ CEdge::CEdge()
 CEdge::CEdge(const CEdge& edge)
 {
 	m_iEdgeId = edge.m_iEdgeId;
-	m_iNode1 = edge.m_iNode1;
-	m_iNode2 = edge.m_iNode2;
+	m_Node1 = edge.m_Node1;
+	m_Node2 = edge.m_Node2;
 }
 
 CEdge::~CEdge()

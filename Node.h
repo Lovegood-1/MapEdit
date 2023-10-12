@@ -7,23 +7,33 @@
 enum class NodeType
 {
 	Node_Road = 0,
-	Node_Road_ = 1
+	Node_Building = 1
 };
 
 class CNode
 {
 public:
 	CNode();
+
 	CNode(const CNode& node); 
 	~CNode();
 
-private:
+	bool operator == (const CNode& data) const;
+	bool operator != (const CNode& data) const;
+
+	inline void setNodeId(int i) { m_iNodeId = i; }
+	inline void setNodePosX(double x) { m_dNodePosX = x; }
+	inline void setNodePosY(double y) { m_dNodePosY = y; }
+	inline void setNodeType(NodeType t) { m_NodeType = t; }
+	inline void setNodeName(QString m_qstrNodeName_) { m_qstrNodeName = m_qstrNodeName_; }
+
+ 
 	NodeType m_NodeType;
 	int m_iNodeId;
 	double m_dNodePosX;
 	double m_dNodePosY;
 	QString m_qstrNodeName;
- 
+
 
 
 };

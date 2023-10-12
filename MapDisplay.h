@@ -6,6 +6,9 @@
 #include "SystemData.h"
 
 #include <QPainter>
+#include <QEvent>
+#include <QMessageBox>
+
 #include <QWheelEvent>
 #include <QMouseEvent>
 
@@ -24,6 +27,7 @@ class CMapDisplay : public Qwidget
 
 #endif
 {
+	Q_OBJECT
 public:
 	CMapDisplay(QWidget* parent = nullptr);
 	~CMapDisplay();
@@ -37,20 +41,47 @@ public:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
+	void keyPressEvent(QKeyEvent* event) override;
+	void keyReleaseEvent(QKeyEvent* event) override;
 
 
+	inline void SetEditMode(const bool& bEdieMode) { m_bEditMode = bEdieMode; }
+
+	inline const bool& GetEditMode() const { return m_bEditMode; }
 
 private:
+ 	int fn_GetNodeId(const double& dPosX, const double& dPosY, CNode& node);
+signals:
+	void Signal_NodeCreated(double dPosX, double dPosY);
+
+private:
+	CSystemData* m_pSystem;
 	CGraph* m_pGraph;
 
 	double m_dStartX;// ?your propose?
 	double m_dStartY;
+	double m_dScale;
 
 	bool m_bEditMode;
 	bool m_bLBtnPressed;
+	bool m_bCtrlPressed;
+	bool m_bAltPressed;
 
 	QPoint m_VClickPoint;
 	QPoint m_VMovePoint;
+
+	QPoint m_EClickPoint;
+	QPoint m_EMovePoint;
+
+	// 创建时候的动态连接线
+	CNode m_ConnectNode1;
+	CNode m_ConnectNode2;
+
+	// 框选编辑
+	double m_dEditAreaTop;
+	double m_dEditAreaBottom;
+	double m_dEditAreaLeft;
+	double m_dEditAreaRight;
 
 };
 
