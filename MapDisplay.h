@@ -77,11 +77,11 @@ private:
 	CNode m_ConnectNode1;
 	CNode m_ConnectNode2;
 
-	// 框选编辑
-	double m_dEditAreaTop;
-	double m_dEditAreaBottom;
-	double m_dEditAreaLeft;
-	double m_dEditAreaRight;
+	// 框选编辑区域功能的参数
+	double m_dEditAreaX1;  // 点击
+	double m_dEditAreaY1;  // 点击
+	double m_dEditAreaX2;  // 移动
+	double m_dEditAreaY2;  // 移动
 
 };
 

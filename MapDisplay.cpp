@@ -1,3 +1,12 @@
+/*
+主窗口重要部件之一
+功能：
+	1. 绘图并相应鼠标、键盘、滚轮等事件。
+	2. 管理 CSystemData 中的点和边
+引出了重要对象 -> CSystemData
+*/
+
+
 #include "MapDisplay.h"
 
 CMapDisplay::CMapDisplay(QWidget* parent): QOpenGLWidget(parent)
@@ -12,10 +21,10 @@ CMapDisplay::CMapDisplay(QWidget* parent): QOpenGLWidget(parent)
 	m_bLBtnPressed	  = false;
 	m_bCtrlPressed	  = false;
 	m_bAltPressed     = false;
-	m_dEditAreaTop = 0.0;
-	m_dEditAreaBottom = 0.0;
-	m_dEditAreaRight = 0.0;
-	m_dEditAreaLeft = 0.0;
+	m_dEditAreaX1 = 0.0;
+	m_dEditAreaX2 = 0.0;
+	m_dEditAreaY1 = 0.0;
+	m_dEditAreaY2 = 0.0;
  
 
 	setMouseTracking(true);
@@ -28,13 +37,7 @@ CMapDisplay::~CMapDisplay()
 
 }
 
-/*
-Qusetion :
-1. 什么时候会触发这个事件？点的时候？
-	- 初始化的时候
-	- update
-	- repaint()
-*/
+ 
 void CMapDisplay::paintEvent(QPaintEvent* event)
 {
 	constexpr int DIAMETER = NODE_RADIUS * 2;
@@ -88,17 +91,17 @@ void CMapDisplay::paintEvent(QPaintEvent* event)
 
 
 	// 框选功能
-	if (m_dEditAreaTop != 0.0 &&
-		m_dEditAreaBottom != 0.0 &&
-		m_dEditAreaLeft != 0.0 &&
-		m_dEditAreaRight != 0.0)
+	if (m_dEditAreaX1 != 0.0 &&
+		m_dEditAreaX2 != 0.0 &&
+		m_dEditAreaY1 != 0.0 &&
+		m_dEditAreaY2 != 0.0)
 	{
 		painter.setPen(m_pSystem->GetEditAreaPen());
 		painter.setBrush(Qt::BrushStyle::NoBrush);
 		painter.drawRect(QRectF(
-			QPoint(m_dStartX + m_dEditAreaLeft * m_dScale, m_dStartX + m_dEditAreaTop * m_dScale),
-			QPoint(m_dStartX + m_dEditAreaRight * m_dScale, m_dStartX + m_dEditAreaBottom * m_dScale)
-		));
+			QPoint(m_dStartX + m_dEditAreaX1 * m_dScale, m_dStartY + m_dEditAreaY1 * m_dScale),
+			QPoint(m_dStartX + m_dEditAreaX2 * m_dScale, m_dStartY + m_dEditAreaY2 * m_dScale)
+		)); // TODO-坐标变换
 	}
 
 
@@ -176,14 +179,20 @@ void CMapDisplay::mouseMoveEvent(QMouseEvent* event)
 	{
 		 
 		m_EMovePoint = event->pos();
-		if (m_bAltPressed)
+		if (m_bAltPressed && m_bLBtnPressed)
 		{
-			double dMousePosX = (m_EClickPoint.x() - m_dStartX) / m_dScale;
-			double dMousePosY = (m_EClickPoint.y() - m_dStartY) / m_dScale;
+			double dMousePosX = (m_EMovePoint.x() - m_dStartX) / m_dScale;
+			double dMousePosY = (m_EMovePoint.y() - m_dStartY) / m_dScale;
+
+			// 功能：框选功能的第二个点随着鼠标移动变化
+			m_dEditAreaX2 = dMousePosX;
+			m_dEditAreaY2 = dMousePosY;
+			update();
+			
 		}
 
-
-		update();
+		if(m_ConnectNode1.m_iNodeId != ERROR_NODE_ID)
+			update();
 	}
 	else
 	{
@@ -227,10 +236,11 @@ void CMapDisplay::mousePressEvent(QMouseEvent* event)
 
 			if (m_bAltPressed)
 			{
-				m_dEditAreaLeft = dMousePosX;
-				m_dEditAreaTop = dMousePosY;
-				m_dEditAreaRight = m_dEditAreaLeft;
-				m_dEditAreaBottom = m_dEditAreaTop;  // ? 这个为什么一致：应该是press-左上；move-右下
+				m_dEditAreaX1 = dMousePosX;
+				m_dEditAreaY1 = dMousePosY;
+				m_dEditAreaX2 = m_dEditAreaX1;
+				m_dEditAreaY2 = m_dEditAreaY1;  // ? 这个为什么一致：应该是press-左上；move-右下
+				update();
 			}
 			else
 			{
@@ -242,6 +252,8 @@ void CMapDisplay::mousePressEvent(QMouseEvent* event)
 
 		else if (event->button() == Qt::MouseButton::RightButton)
 		{
+			
+
 			if (m_ConnectNode1.m_iNodeId == ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
 			{
 				fn_GetNodeId(
