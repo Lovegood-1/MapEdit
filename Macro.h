@@ -8,7 +8,7 @@
 
 // 零、通用包
 #include <iostream>
-
+#include <string>
 // 一、状态宏
  
 	// 通用宏
@@ -35,6 +35,9 @@
 	// 最大放大尺度
 	constexpr float MAX_SCALE = 10;
 
+	// 右击图像弹出菜单内容
+	const std::string  RIGHT_CLICK_MENU[2] = { "Delete Nodes", "Delete Edges" };
+
 
 // 三、用户设置宏
 
@@ -52,6 +55,9 @@
 
 	// 选择节点灵敏度
 	constexpr int CHOSE_POINT_RADIUS = 20;
+
+	// 节点ID字体大小
+	constexpr int NODE_ID_SIZE = 20;
 
 #define USE_OPENGL
 

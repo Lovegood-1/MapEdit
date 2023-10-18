@@ -14,6 +14,7 @@ CSystemData* CSystemData::GetSystemData()
 
 CSystemData::CSystemData()
 {
+	//1 成员变量的初始化
 	m_RoadNodeBrush.setColor(QColor(0, 0, 225));
 	m_RoadNodeBrush.setStyle(Qt::BrushStyle::SolidPattern);
 
@@ -33,6 +34,11 @@ CSystemData::CSystemData()
 
 	m_dRadiusThreshold = CHOSE_POINT_RADIUS;
 
+	m_bShowNodeId = true;
+	m_NodeIdFont.setFamily(QString("Consolas"));
+	m_NodeIdFont.setPixelSize(NODE_ID_SIZE);
+	m_NodeIdPen.setColor(QColor(0, 0, 0));
+	m_NodeIdPen.setStyle(Qt::PenStyle::SolidLine);
 
 }
 

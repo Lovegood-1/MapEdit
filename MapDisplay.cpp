@@ -51,30 +51,11 @@ void CMapDisplay::paintEvent(QPaintEvent* event)
 	double dConnectNode1PosX = 0.0;
 	double dConnectNode2PosY = 0.0;
 
+	// 1. 绘画背景
 	QPainter painter(this);
 	painter.drawImage(QRectF(m_dStartX, m_dStartY, dImageWidth, dImageHeight), m_pGraph->m_MapImage);
 
-	QVector<CNode>::const_iterator cit = m_pGraph->m_NodeVec.constBegin();
-
-	while (cit != m_pGraph->m_NodeVec.constEnd())
-	{
-		painter.setPen(Qt::PenStyle::NoPen);
-		painter.setBrush(cit->m_NodeType == NodeType::Node_Road ? m_pSystem->GetRoadNodeBrush() : m_pSystem->GetBuildingNodeBrush());
-		painter.drawEllipse(QRectF(
-			m_dStartX + (cit->m_dNodePosX - NODE_RADIUS) * m_dScale,
-			m_dStartY + (cit->m_dNodePosY - NODE_RADIUS) * m_dScale,
-			DIAMETER * m_dScale,
-			DIAMETER * m_dScale));
-
-		// 对于当前选中的点
-		if (cit->m_iNodeId == m_ConnectNode1.m_iNodeId)
-		{
-			dConnectNode1PosX = cit->m_dNodePosX;
-			dConnectNode2PosY = cit->m_dNodePosY;
-		}
-		cit++;
-	}
-
+	// 2. 画边
 	painter.setPen(m_pSystem->GetEdgePen());
 	QVector<CEdge>::const_iterator  cite = m_pGraph->m_EdgeVec.constBegin();
 	while (cite != m_pGraph->m_EdgeVec.constEnd())
@@ -85,10 +66,67 @@ void CMapDisplay::paintEvent(QPaintEvent* event)
 				m_dStartY + cite->m_Node1.m_dNodePosY * m_dScale),
 			QPointF(
 				m_dStartX + cite->m_Node2.m_dNodePosX * m_dScale,
-				m_dStartY + cite->m_Node2 .m_dNodePosY * m_dScale)));
+				m_dStartY + cite->m_Node2.m_dNodePosY * m_dScale)));
 		cite++;
 	}
 
+	// 3. 画点:两种情况带id 或者不带id
+
+	if (m_pSystem->GetShowNodeId())
+	{
+		QPen idPen = m_pSystem->GetNodeIdPen();
+		QFont idFont = m_pSystem->GetNodeIdFont();
+		int iHalfPixelSize = idFont.pixelSize() / 2;
+
+		painter.setFont(idFont);
+		QVector<CNode>::const_iterator cit = m_pGraph->m_NodeVec.constBegin();
+		while (cit != m_pGraph->m_NodeVec.constEnd())
+		{
+			painter.setPen(Qt::PenStyle::NoPen);
+			painter.setBrush(cit->m_NodeType == NodeType::Node_Road ? m_pSystem->GetRoadNodeBrush() : m_pSystem->GetBuildingNodeBrush());
+			painter.drawEllipse(QRectF(
+				m_dStartX + (cit->m_dNodePosX - NODE_RADIUS) * m_dScale,
+				m_dStartY + (cit->m_dNodePosY - NODE_RADIUS) * m_dScale,
+				DIAMETER * m_dScale,
+				DIAMETER * m_dScale));
+
+			// 显示点的id
+			painter.setPen(idPen);
+			painter.drawText(
+				QPointF(m_dStartX + (cit->m_dNodePosX + NODE_RADIUS) * m_dScale, m_dStartY + (cit->m_dNodePosY) * m_dScale - iHalfPixelSize), QString::number(cit->m_iNodeId) ) ;
+
+			if (cit->m_iNodeId == m_ConnectNode1.m_iNodeId)
+			{
+				dConnectNode1PosX = cit->m_dNodePosX;
+				dConnectNode2PosY = cit->m_dNodePosY;
+			}
+			cit++;
+		}
+	}
+	else
+	{
+		painter.setPen(Qt::PenStyle::NoPen);
+		QVector<CNode>::const_iterator cit = m_pGraph->m_NodeVec.constBegin();
+		while (cit != m_pGraph->m_NodeVec.constEnd())
+		{
+			painter.setPen(Qt::PenStyle::NoPen);
+			painter.setBrush(cit->m_NodeType == NodeType::Node_Road ? m_pSystem->GetRoadNodeBrush() : m_pSystem->GetBuildingNodeBrush());
+			painter.drawEllipse(QRectF(
+				m_dStartX + (cit->m_dNodePosX - NODE_RADIUS) * m_dScale,
+				m_dStartY + (cit->m_dNodePosY - NODE_RADIUS) * m_dScale,
+				DIAMETER * m_dScale,
+				DIAMETER * m_dScale));
+
+			// 对于当前选中的点
+			if (cit->m_iNodeId == m_ConnectNode1.m_iNodeId)
+			{
+				dConnectNode1PosX = cit->m_dNodePosX;
+				dConnectNode2PosY = cit->m_dNodePosY;
+			}
+			cit++;
+		}
+	}
+	 
 
 	// 框选功能
 	if (m_dEditAreaX1 != 0.0 &&
@@ -252,70 +290,97 @@ void CMapDisplay::mousePressEvent(QMouseEvent* event)
 
 		else if (event->button() == Qt::MouseButton::RightButton)
 		{
-			
-
-			if (m_ConnectNode1.m_iNodeId == ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
+			if (m_bAltPressed &&
+				m_dEditAreaX1!=0.0 &&
+				m_dEditAreaY1!=0.0 &&
+				m_dEditAreaX2!=0.0 &&
+				m_dEditAreaY2!=0.0 ) // ?que:这个不用判断是否在内部吗？
 			{
-				fn_GetNodeId(
-					((double)m_EClickPoint.x() - m_dStartX) / m_dScale, 
-					((double)m_EClickPoint.y() - m_dStartY) / m_dScale, 
-					m_ConnectNode1 );
-			}
-			else if (  !m_bCtrlPressed && m_ConnectNode1.m_iNodeId != ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
-			{
-				fn_GetNodeId(
-					((double)m_EClickPoint.x() - m_dStartX) / m_dScale,
-					((double)m_EClickPoint.y() - m_dStartY) / m_dScale,
-					m_ConnectNode1 );
-			}
-			else if (m_bCtrlPressed && m_ConnectNode1.m_iNodeId != ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
-			{
-				// 应该创建新的边了
-				// 1 如果选中第二个点 2 去重复
-				fn_GetNodeId(
-					((double)m_EClickPoint.x() - m_dStartX) / m_dScale,
-					((double)m_EClickPoint.y() - m_dStartY) / m_dScale,
-					m_ConnectNode2 );
-
-				if (m_ConnectNode2.m_iNodeId != ERROR_NODE_ID)
+				QMenu menu;
+				const char *pDeleteNodes = "Delete Nodes";
+				const char* pDeleteEdges = "Delete Edges";
+				menu.addAction(tr(pDeleteNodes));
+				menu.addAction(tr(pDeleteEdges));
+				QAction* pRet = menu.exec(event->globalPos());
+				if (pRet != nullptr && pRet->text() == tr(pDeleteNodes))
 				{
-					bool bCreate = true;
-					QVector<CEdge>::const_iterator cit = m_pGraph->m_EdgeVec.constBegin();
-					while (cit != m_pGraph->m_EdgeVec.constEnd())
-					{
-						if (cit->m_Node1 == m_ConnectNode1 && cit->m_Node2 == m_ConnectNode2)
-						{
-							bCreate = false;
-							break;
-						}
-						else if(cit->m_Node1 == m_ConnectNode2 && cit->m_Node2 == m_ConnectNode1)
-						{
-							bCreate = false;
-							break;
-						}
-						cit++;
-					}
-
-					if (bCreate)
-					{
-						CEdge edge;
-						edge.m_iEdgeId = m_pGraph->m_iMaxEdgeId++;
-						edge.m_Node1 = m_ConnectNode1;
-						edge.m_Node2 = m_ConnectNode2;
-						m_pGraph->m_EdgeVec.push_back(edge);
-					}
-					else
-					{
-						QMessageBox msgBox;
-						msgBox.setText(tr("Edge already existed"));
-						msgBox.exec();
-					}
-
-					m_ConnectNode1 = CNode();
-					m_ConnectNode2 = CNode();
-
+					fn_DeleteNodes();
+					update();
+				}
+				else if (pRet != nullptr && pRet->text() == tr(pDeleteEdges))
+				{
+					fn_DeleteEdges();
+					update();
 				}
 
+
+			}
+			else
+			{
+				if (m_ConnectNode1.m_iNodeId == ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
+				{
+					fn_GetNodeId(
+						((double)m_EClickPoint.x() - m_dStartX) / m_dScale,
+						((double)m_EClickPoint.y() - m_dStartY) / m_dScale,
+						m_ConnectNode1);
+				}
+				else if (!m_bCtrlPressed && m_ConnectNode1.m_iNodeId != ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
+				{
+					fn_GetNodeId(
+						((double)m_EClickPoint.x() - m_dStartX) / m_dScale,
+						((double)m_EClickPoint.y() - m_dStartY) / m_dScale,
+						m_ConnectNode1);
+				}
+				else if (m_bCtrlPressed && m_ConnectNode1.m_iNodeId != ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
+				{
+					// 应该创建新的边了
+					// 1 如果选中第二个点 2 去重复
+					fn_GetNodeId(
+						((double)m_EClickPoint.x() - m_dStartX) / m_dScale,
+						((double)m_EClickPoint.y() - m_dStartY) / m_dScale,
+						m_ConnectNode2);
+
+					if (m_ConnectNode2.m_iNodeId != ERROR_NODE_ID)
+					{
+						bool bCreate = true;
+						QVector<CEdge>::const_iterator cit = m_pGraph->m_EdgeVec.constBegin();
+						while (cit != m_pGraph->m_EdgeVec.constEnd())
+						{
+							if (cit->m_Node1 == m_ConnectNode1 && cit->m_Node2 == m_ConnectNode2)
+							{
+								bCreate = false;
+								break;
+							}
+							else if (cit->m_Node1 == m_ConnectNode2 && cit->m_Node2 == m_ConnectNode1)
+							{
+								bCreate = false;
+								break;
+							}
+							cit++;
+						}
+
+						if (bCreate)
+						{
+							CEdge edge;
+							edge.m_iEdgeId = m_pGraph->m_iMaxEdgeId++;
+							edge.m_Node1 = m_ConnectNode1;
+							edge.m_Node2 = m_ConnectNode2;
+							m_pGraph->m_EdgeVec.push_back(edge);
+						}
+						else
+						{
+							QMessageBox msgBox;
+							msgBox.setText(tr("Edge already existed"));
+							msgBox.exec();
+						}
+
+						m_ConnectNode1 = CNode();
+						m_ConnectNode2 = CNode();
+						update();
+
+					}
+
+				}
 			}
 		}
 	}
@@ -446,5 +511,73 @@ int CMapDisplay::fn_GetNodeId(const double& dPosX, const double& dPosY, CNode& n
 		}
 		cit++;
 	}
+	return NORMAL_RETURN;
+}
+
+int CMapDisplay::fn_DeleteNodes()
+{
+	// 功能：框选的时候删除内部的节点，顺便删除点上的边
+	double dx1 = m_dEditAreaX1 < m_dEditAreaX2 ? m_dEditAreaX1 : m_dEditAreaX2; // TODO: 这种重复的代码可以改
+	double dx2 = m_dEditAreaX1 < m_dEditAreaX2 ? m_dEditAreaX2 : m_dEditAreaX1;
+	double dy1 = m_dEditAreaY1 < m_dEditAreaY2 ? m_dEditAreaY1 : m_dEditAreaY2;
+	double dy2 = m_dEditAreaY1 < m_dEditAreaY2 ? m_dEditAreaY2 : m_dEditAreaY1;
+
+	// 先遍历边，如果两个顶点任意一个在区域内，则移除。
+	QVector<CEdge>::iterator ite = m_pGraph->m_EdgeVec.begin();
+	while (ite != m_pGraph->m_EdgeVec.end())
+	{
+		if ((ite->m_Node1.m_dNodePosX > dx1 && ite->m_Node1.m_dNodePosX < dx2 &&
+			 ite->m_Node1.m_dNodePosY > dy1 && ite->m_Node1.m_dNodePosY < dy2 ) ||
+			(ite->m_Node2.m_dNodePosX > dx1 && ite->m_Node2.m_dNodePosX < dx2 &&
+			 ite->m_Node2.m_dNodePosY > dy1 && ite->m_Node2.m_dNodePosX < dy2 )) // 这种太变态了，可以考虑用个匿名函数
+
+		{
+			ite = m_pGraph->m_EdgeVec.erase(ite);
+			continue;
+		}
+		ite++;
+	}
+
+
+	// 然后遍历边
+	QVector<CNode>::iterator itn = m_pGraph->m_NodeVec.begin();
+	while (itn != m_pGraph->m_NodeVec.end())
+	{
+		if ((itn->m_dNodePosX > dx1 && itn->m_dNodePosX < dx2 && itn->m_dNodePosY > dy1 && itn->m_dNodePosY < dy2)  ) // 这种太变态了，可以考虑用个匿名函数
+
+		{
+			itn = m_pGraph->m_NodeVec.erase(itn);
+			continue;
+		}
+		itn++;
+	}
+
+
+	return NORMAL_RETURN;
+}
+
+int CMapDisplay::fn_DeleteEdges()
+{
+	double dx1 = m_dEditAreaX1 < m_dEditAreaX2 ? m_dEditAreaX1 : m_dEditAreaX2;
+	double dx2 = m_dEditAreaX1 < m_dEditAreaX2 ? m_dEditAreaX2 : m_dEditAreaX1;
+	double dy1 = m_dEditAreaY1 < m_dEditAreaY2 ? m_dEditAreaY1 : m_dEditAreaY2;
+	double dy2 = m_dEditAreaY1 < m_dEditAreaY2 ? m_dEditAreaY2 : m_dEditAreaY1;
+
+	QVector<CEdge>::iterator ite = m_pGraph->m_EdgeVec.begin();
+
+	while (ite != m_pGraph->m_EdgeVec.end())
+	{
+		if (ite->m_Node1.m_dNodePosX > dx1 && ite->m_Node1.m_dNodePosX < dx2 &&
+			ite->m_Node1.m_dNodePosY > dy1 && ite->m_Node1.m_dNodePosY < dy2 &&
+			ite->m_Node2.m_dNodePosX > dx1 && ite->m_Node2.m_dNodePosX < dx2 &&
+			ite->m_Node2.m_dNodePosY > dy1 && ite->m_Node2.m_dNodePosX < dy2) // 这种太变态了，可以考虑用个匿名函数
+
+		{
+			ite = m_pGraph->m_EdgeVec.erase(ite);
+			continue;
+		}
+		ite++;
+	}
+
 	return NORMAL_RETURN;
 }

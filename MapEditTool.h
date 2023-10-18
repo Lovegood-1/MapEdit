@@ -61,6 +61,9 @@ private:
 
     QMenu* m_pSelectionMenu;
     QAction* m_pSettingAction;
+    QAction* m_pShowNodeIdAction;
+    QAction* m_pHideNodeIdAction;
+
 
     CMapDisplay m_MapDisplay;
 
@@ -81,6 +84,8 @@ protected slots:
     int fn_Recv_ImportMapAction_Triggered();
     int fn_Recv_ViewModeAction_Triggered();
     int fn_Recv_EditModeAction_Triggered();
+    int fn_Recv_ShowNodeIdAction_Triggered();
+    int fn_Recv_HideNodeIdAction_Triggered();
     int fn_Recv_SettingAction_Triggered();
     int fn_Recv_SaveNodeBtn_Clicked();
     int fn_Recv_ModeSwitchShortcut_Activated();

@@ -5,10 +5,11 @@
 #include "Graph.h"
 #include "SystemData.h"
 
-#include <QPainter>
+#include <QMenu>
 #include <QEvent>
+#include <QAction>
+#include <QPainter>
 #include <QMessageBox>
-
 #include <QWheelEvent>
 #include <QMouseEvent>
 
@@ -45,12 +46,14 @@ public:
 	void keyReleaseEvent(QKeyEvent* event) override;
 
 
-	inline void SetEditMode(const bool& bEdieMode) { m_bEditMode = bEdieMode; }
-
-	inline const bool& GetEditMode() const { return m_bEditMode; }
+	inline void		   SetEditMode(const bool& bEdieMode) { m_bEditMode = bEdieMode; }
+	inline const bool& GetEditMode() const				  { return m_bEditMode; }
 
 private:
  	int fn_GetNodeId(const double& dPosX, const double& dPosY, CNode& node);
+	int fn_DeleteNodes();
+	int fn_DeleteEdges();
+
 signals:
 	void Signal_NodeCreated(double dPosX, double dPosY);
 

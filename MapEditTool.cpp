@@ -9,12 +9,15 @@ CMapEditTool::CMapEditTool(QWidget *parent)
     m_pImportMapAction   = new QAction(tr("Import Map"), this);
     m_pViewModeAction    = new QAction(tr("View Mode"), this);
     m_pEditModeAction    = new QAction(tr("Edit Mode"), this);
+    m_pShowNodeIdAction = new QAction(tr("Show Node Id"), this);
+    m_pHideNodeIdAction = new QAction(tr("Hide Node Id"), this);
     m_pSettingAction     = new QAction(tr("Setting"), this);
 
     m_pViewModeAction->setCheckable(true);
     m_pViewModeAction->setChecked(true);
     m_pEditModeAction->setCheckable(true);
     m_pEditModeAction->setChecked(false);
+    m_pShowNodeIdAction->setEnabled(false);
 
 
 
@@ -30,6 +33,10 @@ CMapEditTool::CMapEditTool(QWidget *parent)
 
     m_pOperateMenu->addAction(m_pViewModeAction);
     m_pOperateMenu->addAction(m_pEditModeAction);
+
+    m_pSelectionMenu->addAction(m_pHideNodeIdAction);
+    m_pSelectionMenu->addAction(m_pShowNodeIdAction);
+    m_pSelectionMenu->addSeparator();
     m_pSelectionMenu->addAction(m_pSettingAction);
 
     m_MenuBar.setParent(this);
@@ -93,6 +100,8 @@ CMapEditTool::CMapEditTool(QWidget *parent)
     connect(&m_SaveNodeBtn, &QPushButton::clicked, this, &CMapEditTool::fn_Recv_SaveNodeBtn_Clicked, Qt::ConnectionType::DirectConnection);
     connect(&m_ModeSwitchShortcut, &QShortcut::activated, this, &CMapEditTool::fn_Recv_ModeSwitchShortcut_Activated, Qt::ConnectionType::DirectConnection);
     connect(&m_MapDisplay, &CMapDisplay::Signal_NodeCreated, this, &CMapEditTool::fn_Recv_MapDisplay_NodeCreated, Qt::ConnectionType::DirectConnection);
+    connect(m_pShowNodeIdAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_ShowNodeIdAction_Triggered, Qt::ConnectionType::DirectConnection);
+    connect(m_pHideNodeIdAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_HideNodeIdAction_Triggered, Qt::ConnectionType::DirectConnection);
 
 }
 
@@ -175,6 +184,24 @@ int CMapEditTool::fn_Recv_EditModeAction_Triggered()
     m_pViewModeAction->setChecked(false);
     m_pEditModeAction->setChecked(true);
     m_MapDisplay.SetEditMode(true);
+    m_MapDisplay.update();
+    return NORMAL_RETURN;
+}
+
+int CMapEditTool::fn_Recv_ShowNodeIdAction_Triggered()
+{
+    CSystemData::GetSystemData()->SetShowNodeId(true);
+    m_pShowNodeIdAction->setEnabled(false);
+    m_pHideNodeIdAction->setEnabled(true);
+    m_MapDisplay.update();
+    return NORMAL_RETURN;
+}
+
+int CMapEditTool::fn_Recv_HideNodeIdAction_Triggered()
+{
+    CSystemData::GetSystemData()->SetShowNodeId(false);
+    m_pShowNodeIdAction->setEnabled(true);
+    m_pHideNodeIdAction->setEnabled(false);
     m_MapDisplay.update();
     return NORMAL_RETURN;
 }
