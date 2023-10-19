@@ -82,14 +82,8 @@ CMapEditTool::CMapEditTool(QWidget *parent)
 
     m_SaveNodeBtn.setParent(this);
     m_SaveNodeBtn.setText(tr("Save Node"));
-
- 
-
- 
-
-
-    // 
-
+    m_SaveNodeBtn.setShortcut(QKeySequence(QString("Ctrl+S")));
+    m_SaveNodeBtn.setFocusPolicy(Qt::FocusPolicy::WheelFocus);
 
     connect(m_pLoadFileAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_LoadFileAction_Triggered, Qt::ConnectionType::DirectConnection);
     connect(m_pSaveFileAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_SaveDataAction_Triggered, Qt::ConnectionType::DirectConnection);
@@ -279,5 +273,6 @@ int CMapEditTool::fn_Recv_MapDisplay_NodeCreated(const double& dPosX, const doub
 {
     m_NodePosXEdit.setText(QString::number(dPosX));
     m_NodePosYEdit.setText(QString::number(dPosY));
+    m_NodeNameEdit.setFocus();
     return NORMAL_RETURN;
 }
