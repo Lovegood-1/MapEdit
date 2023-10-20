@@ -1,4 +1,9 @@
 <RCC>
-    <qresource prefix="MapEdit">
+    <qresource prefix="/MapEdit"/>
+    <qresource prefix="/icon">
+        <file>Resource/icon/Tool.png</file>
+    </qresource>
+    <qresource prefix="/qss">
+        <file>Resource/qss/MapEditTool.qss</file>
     </qresource>
 </RCC>

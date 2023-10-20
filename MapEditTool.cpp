@@ -3,6 +3,13 @@
 CMapEditTool::CMapEditTool(QWidget *parent)
     : QWidget(parent), m_ModeSwitchShortcut(this)
 {
+    setAttribute(Qt::WidgetAttribute::WA_StyledBackground);
+    setWindowTitle(tr("Map Edit Tool"));
+    setWindowIcon(QIcon(QString(":/icon/Resource/icon/Tool.png")));
+    setMinimumSize(QSize(600, 400));
+
+
+
     // creat 
     m_pLoadFileAction    = new QAction(tr("Load File"), this);
     m_pSaveFileAction    = new QAction(tr("Save Data"), this);
@@ -66,19 +73,19 @@ CMapEditTool::CMapEditTool(QWidget *parent)
     m_NodePosYEdit.setReadOnly(true);
 
     m_NodeTypeLabel.setParent(this);
-    m_NodeTypeLabel.setText(tr("Node Type :"));
+    m_NodeTypeLabel.setText(tr("Type :"));
 
     m_NodeTypeComboBox.setParent(this);
-    m_NodeTypeComboBox.addItem(tr("Road Node"));
-    m_NodeTypeComboBox.addItem(tr("Building Node"));
+    m_NodeTypeComboBox.addItem(tr("Road"));
+    m_NodeTypeComboBox.addItem(tr("Building"));
     m_NodeTypeComboBox.setCurrentIndex(0);
 
     m_NodeNameLabel.setParent(this);
-    m_NodeNameLabel.setText(tr("Node Name :"));
+    m_NodeNameLabel.setText(tr("Name :"));
 
  
     m_NodeNameEdit.setParent(this);
-    m_NodeNameEdit.setPlaceholderText(tr("Input node name"));
+    m_NodeNameEdit.setPlaceholderText(tr("Name ..."));
 
     m_SaveNodeBtn.setParent(this);
     m_SaveNodeBtn.setText(tr("Save Node"));
@@ -97,6 +104,7 @@ CMapEditTool::CMapEditTool(QWidget *parent)
     connect(m_pShowNodeIdAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_ShowNodeIdAction_Triggered, Qt::ConnectionType::DirectConnection);
     connect(m_pHideNodeIdAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_HideNodeIdAction_Triggered, Qt::ConnectionType::DirectConnection);
 
+    fn_LoadStyleSheet();
 }
 
 CMapEditTool::~CMapEditTool()
@@ -128,11 +136,25 @@ void CMapEditTool::resizeEvent(QResizeEvent * event)
 
 int CMapEditTool::fn_Recv_LoadFileAction_Triggered()
 {
+    QString qstrFilePath = QFileDialog::getOpenFileName(this, tr("Open .gh File"), QString("."), tr("Graph File(*.gh)"));
+    if (qstrFilePath.isEmpty())
+    {
+        return NO_FILE_SELECTED;
+    } 
+
+    CSystemData::GetSystemData()->GetGraph()->LoadFile(qstrFilePath);
     return NORMAL_RETURN;
 }
 
 int CMapEditTool::fn_Recv_SaveDataAction_Triggered()
 {
+    QString qstrFilePath = QFileDialog::getSaveFileName(this, tr("Save .gh File"), QString("."), tr("Graph File(*.gh)"));
+    if (qstrFilePath.isEmpty())
+    {
+        return NO_FILE_SELECTED;
+    }
+
+    CSystemData::GetSystemData()->GetGraph()->SaveData(qstrFilePath);
     return NORMAL_RETURN;
 }
 
@@ -275,4 +297,17 @@ int CMapEditTool::fn_Recv_MapDisplay_NodeCreated(const double& dPosX, const doub
     m_NodePosYEdit.setText(QString::number(dPosY));
     m_NodeNameEdit.setFocus();
     return NORMAL_RETURN;
+}
+
+int CMapEditTool::fn_LoadStyleSheet()
+{
+    QFile file(QString(":/qss/Resource/qss/MapEditTool.qss"));
+    if (file.open(QIODevice::OpenModeFlag::ReadOnly))
+    {
+        setStyleSheet(QString(file.readAll()));
+        file.close();
+    }
+
+
+    return 0;
 }

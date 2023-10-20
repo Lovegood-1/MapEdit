@@ -92,6 +92,10 @@ protected slots:
 
     int fn_Recv_MapDisplay_NodeCreated(const double& dPosX, const double& dPosY);
 
+private:
+    int fn_LoadStyleSheet();
+
+
 };
 
 #endif // !MAPEDITTOOL_H

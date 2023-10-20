@@ -5,14 +5,19 @@
 #include "Edge.h"
 #include "Macro.h"
 
+#include <QFile>
 #include <QVector>
 #include <QImage>
+#include <QDataStream>
 
 class CGraph
 {
 public:
 	CGraph();
 	~CGraph();
+
+	int LoadFile(const QString & qstrFilePath);
+	int SaveData(const QString& qstrFilePath);
 
 
 public:

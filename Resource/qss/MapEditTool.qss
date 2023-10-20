@@ -1,0 +1,57 @@
+CMapEditTool
+{
+	background-color: #DDDDDD;
+	padding:0px;
+	margin:0px;
+}
+
+QLabel
+{
+	background-color:transparent;
+	padding:0px;
+	margin:0px;
+	border:none;
+	font-family:"Times New Roman";
+	font-size:18px;
+	color:#222222;
+}
+
+QLineEdit
+{
+	background-color:transparent;
+	padding:0px;
+	margin:0px;
+	border-style:solid;
+	border-color:#999999;
+	border-width:0px 0px 1px 0px;
+	font-family:"Times New Roman";
+	font-size:18px;
+	color:#222222;
+
+}
+
+
+
+QPushButton
+{
+	background-color:transparent;
+	padding:0px;
+	margin:0px;
+	border-style:solid;
+	border-color:#000000;
+	border-width:1px;
+	border-radius:5px;
+	font-family:"Times New Roman";
+	font-size:18px;
+	color:#000000;
+}
+
+QPushButton:hover
+{
+	background-color:#BBBBBB;
+}
+
+QPushButton:pressed
+{
+	background-color:#999999;
+}

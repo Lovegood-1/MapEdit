@@ -16,8 +16,9 @@
 	constexpr int ERROR_POSITION = 1;
 	constexpr int EMPTY_NODE_NAME = 2;
 	// 文件宏
-	#define FILE_NOT_FOUND 101 // 文件不存在
+	#define FILE_NOT_FOUND 101   // 文件不存在
 	#define NO_FILE_SELECTED 102 // 没有文件被选择 
+	#define OPEN_FILE_FAILED 103 // 打开文件失败
 
 
 	// 其他宏
