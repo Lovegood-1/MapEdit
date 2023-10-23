@@ -13,7 +13,7 @@ Map Edit Tool<a name="TOP"></a>
 
 ## 使用效果
 
-![Alt text](Resource\image.png)
+![Alt text](./Resource/image.png)
 
 
 
