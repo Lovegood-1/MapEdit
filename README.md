@@ -13,7 +13,10 @@ Map Edit Tool<a name="TOP"></a>
 
 ## 使用效果
 
-![Alt text](image.png)
+![Alt text](Resource\image.png)
 
+
+
+## 关于作者
  
-大部分来源于[B站视频](https://www.bilibili.com/video/BV1kM411K7Jr/?spm_id_from=333.788.recommend_more_video.1&vd_source=e07ba382c7723740f058bd78a2e85fe7)
+参考[B站视频](https://www.bilibili.com/video/BV1kM411K7Jr/?spm_id_from=333.788.recommend_more_video.1&vd_source=e07ba382c7723740f058bd78a2e85fe7)中的作品，经过修改后发布。本作品的主要目的是做个小练习。
