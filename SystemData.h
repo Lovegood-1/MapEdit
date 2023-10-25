@@ -1,3 +1,11 @@
+/**
+ * @brief     é‡è¦æ•°æ®å®¹å™¨
+ * @details   è¯¥å®¹å™¨ä¿å­˜äº†æ‰€æœ‰é‡è¦çš„æ•°æ®ï¼ˆä¸»è¦æ˜¯å›¾æ•°æ® Graphï¼‰
+ * @mainpage  MapDisplay.cpp -> this file -> Graph.cpp
+ * @date 2023-10-24
+ */
+
+
 #ifndef SYSTEMDATA_H
 #define SYSTEMDATA_H
 
@@ -46,8 +54,8 @@ private:
 	QPen			   m_ConnectPen;
 	QPen			   m_EditAreaPen;
 	double			   m_dRadiusThreshold;
-	bool			   m_bShowNodeId;			 QFont m_NodeIdFont;            // ÊÇ·ñÏÔÊ¾½Úµã±àºÅÒÔ¼°±àºÅ×ÖÌå
-	QPen			   m_NodeIdPen;    // ½Úµã±àºÅ»­±Ê
+	bool			   m_bShowNodeId;			 QFont m_NodeIdFont;            // ï¿½Ç·ï¿½ï¿½ï¿½Ê¾ï¿½Úµï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	QPen			   m_NodeIdPen;    // ï¿½Úµï¿½ï¿½Å»ï¿½ï¿½ï¿½
 };
 
 

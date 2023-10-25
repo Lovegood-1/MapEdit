@@ -1,3 +1,11 @@
+/**
+ * @brief     å­çª—å£æ–‡ä»¶
+ * @details   é‡è¦çš„ç»˜å›¾å­ä¸²å£ï¼Œå®žçŽ°ç¼©æ”¾ã€é€‰ç‚¹ç­‰åŠŸèƒ½
+ * @mainpage  MapDisplay.cpp -> this file -> SystemData.cpp
+ * @date 2023-10-24
+ */
+
+
 #ifndef MAPDISPLAY_H
 #define MAPDISPLAY_H
 
@@ -13,14 +21,14 @@
 #include <QWheelEvent>
 #include <QMouseEvent>
 
-// ¶¯Ì¬ include
+// ï¿½ï¿½Ì¬ include
 #ifdef USE_OPENGL
 #include <QOpenGLWidget>
 #else
 #include <qwidget>
 #endif
 
-// ¶¯Ì¬¶¨Òå£¡£¡£¡
+// ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½å£¡ï¿½ï¿½ï¿½ï¿½
 #ifdef USE_OPENGL
 class CMapDisplay : public QOpenGLWidget
 #else
@@ -34,7 +42,7 @@ public:
 	~CMapDisplay();
 
 
-	// ËùÓÐ´°¿Ú¶¼ÓÐ»æ»­¡¢Ëõ·Å¹¦ÄÜ£¬ÕâÀïÖØÐ´ËûÃÇ
+	// ï¿½ï¿½ï¿½Ð´ï¿½ï¿½Ú¶ï¿½ï¿½Ð»æ»­ï¿½ï¿½ï¿½ï¿½ï¿½Å¹ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½
 	void paintEvent(QPaintEvent* event) override;
 	void resizeEvent(QResizeEvent* event) override;
 	void wheelEvent(QWheelEvent* event) override;
@@ -76,15 +84,15 @@ private:
 	QPoint m_EClickPoint;
 	QPoint m_EMovePoint;
 
-	// ´´½¨Ê±ºòµÄ¶¯Ì¬Á¬½ÓÏß
+	// ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ä¶ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	CNode m_ConnectNode1;
 	CNode m_ConnectNode2;
 
-	// ¿òÑ¡±à¼­ÇøÓò¹¦ÄÜµÄ²ÎÊý
-	double m_dEditAreaX1;  // µã»÷
-	double m_dEditAreaY1;  // µã»÷
-	double m_dEditAreaX2;  // ÒÆ¶¯
-	double m_dEditAreaY2;  // ÒÆ¶¯
+	// ï¿½ï¿½Ñ¡ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ÜµÄ²ï¿½ï¿½ï¿½
+	double m_dEditAreaX1;  // ï¿½ï¿½ï¿½
+	double m_dEditAreaY1;  // ï¿½ï¿½ï¿½
+	double m_dEditAreaX2;  // ï¿½Æ¶ï¿½
+	double m_dEditAreaY2;  // ï¿½Æ¶ï¿½
 
 };
 

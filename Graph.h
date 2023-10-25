@@ -1,3 +1,11 @@
+/**
+ * @brief     重要数据类型
+ * @details   图数据类型，向下包括节点数据类型和边数据类型。
+ * @mainpage  MapDisplay.cpp -> this file -> Node.cpp Edge.cpp
+ * @date 2023-10-24
+ */
+
+
 #ifndef GRAPH_H
 #define GRAPH_H
 
