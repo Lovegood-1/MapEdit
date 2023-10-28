@@ -27,7 +27,7 @@
 #include "Macro.h"
 #include "Systemdata.h"
 #include "MapDisplay.h"
-#include "SimpleButton.h"
+#include "SimpleButton.hpp"
 
 class CMapEditTool : public QWidget
 {
@@ -38,7 +38,6 @@ public:
     ~CMapEditTool();
 
     void resizeEvent(QResizeEvent* event) override;
-
 
 private:
     /*
@@ -74,7 +73,7 @@ private:
 
     QLabel m_NodeTypeLabel;     QComboBox m_NodeTypeComboBox;
     QLabel m_NodeNameLabel;     QLineEdit m_NodeNameEdit;
-    QPushButton m_SaveNodeBtn;
+    CSimpleButton m_SaveNodeBtn;
     CSimpleButton m_TestBtn;
 
 protected slots:

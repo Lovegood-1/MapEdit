@@ -57,9 +57,17 @@ public:
 	inline const bool& GetEditMode() const				  { return m_bEditMode; }
 
 private:
+	// 一些反应的函数
  	int fn_GetNodeId(const double& dPosX, const double& dPosY, CNode& node);
 	int fn_DeleteNodes();
 	int fn_DeleteEdges();
+
+	// 
+	template<typename T>
+	inline double fn_TransMap2Window(T iPos_Map ,double dStartPoint, double dScale);
+
+	template<typename T>
+	inline double  fn_TransA2B(T iPos_A, double dAStartPoint_B, double dScaleA_B);
 
 signals:
 	void Signal_NodeCreated(double dPosX, double dPosY);
@@ -94,3 +102,4 @@ private:
 };
 
 #endif
+

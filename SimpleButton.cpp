@@ -36,9 +36,9 @@ void CSimpleButton::animationConfig() {
 
 	if (timer != nullptr) {
 		timer->stop();
-		delete timer;
+        timer->start();
 	}
-	timer = new QTimer(this);
+	//timer = new QTimer(this);
  	timer->setInterval(timer_interval);
 	connect(timer, &QTimer::timeout, this, &CSimpleButton::incRadius);
  
@@ -54,5 +54,74 @@ void CSimpleButton::incRadius() {
 }
 
 
+void CSimpleButton::decRadius() {
+	radius -= radiusVar;
+	if (radius < 0) {
+		timer->stop();
+		return;
+	}
+	update();
+}
 
-  
+
+void CSimpleButton::setText(const QString& text) {
+    this->text = text;
+}
+
+void CSimpleButton::paintText() {
+    /* »æÖÆÎÄ×Ö */
+    QPainterPath path;
+    path.addRoundedRect(0, 0, width(), height(), border_radius, border_radius);
+
+    QPainter painter(this);
+    painter.setPen(Qt::NoPen);
+    painter.setClipPath(path);
+    painter.setFont(font());
+    painter.setPen(QColor(font_color));
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    if (!text.isEmpty()) {
+        painter.drawText(rect(), Qt::AlignCenter, text);
+    }
+}
+
+void CSimpleButton::paintEvent(QPaintEvent* event) {
+    QPushButton::paintEvent(event);
+
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QBrush brush(full_color);
+    painter.setBrush(brush);
+    painter.setPen(Qt::NoPen);
+
+    QPainterPath path;
+    path.addRoundedRect(rect(), border_radius, border_radius);
+    painter.setClipPath(path);
+
+    painter.drawEllipse(QPoint(0, 0), radius, radius);
+    painter.drawEllipse(QPoint(width(), height()), radius, radius);
+
+    paintText();
+}
+
+void CSimpleButton::enterEvent(QEvent* event) {
+    font_color = font_anim_finish_color;
+    timer->disconnect();
+    connect(timer, &QTimer::timeout, this, &CSimpleButton::incRadius);
+    timer->start();
+}
+
+void CSimpleButton::leaveEvent(QEvent* event) {
+    font_color = font_anim_finish_color;
+    timer->disconnect();
+    connect(timer, &QTimer::timeout, this, &CSimpleButton::decRadius);
+    timer->start();
+}
+
+void CSimpleButton::showEvent(QShowEvent* event) {
+    QPushButton::showEvent(event);
+    animationConfig();
+}
+
+ 

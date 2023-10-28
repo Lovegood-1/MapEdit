@@ -22,6 +22,15 @@ Map Edit Tool<a name="TOP"></a>
 参考[B站视频](https://www.bilibili.com/video/BV1kM411K7Jr/?spm_id_from=333.788.recommend_more_video.1&vd_source=e07ba382c7723740f058bd78a2e85fe7)中的作品，经过修改后发布。本作品的主要目的是做个小练习。
 
 
-## 阅读顺序
+## 代码阅读顺序
 
 ![Alt text](Resource/image/ImageInReadme.png)
+
+## 功能更新
+
+- [x]  当切换模式的时候，清空左侧。(2023-10-28 主要修改：MapEditTool.cpp)
+- [x]  当只选中一个点的时候，无法取消选择。或者说线连到一半的时候无法取消。 (2023-10-28 主要修改：MapDisplay.cpp)
+
+## 代码优化
+- [x] 快捷键切换模式的代码和使用鼠标切换的代码没有重用。 （2023-10-28 主要修改：MapEditTool.cpp）
+- [x] 程序涉及从地图坐标系到窗口坐标系的转换用统一的函数，而不是总是手写转化表达式。

@@ -92,6 +92,12 @@ CMapEditTool::CMapEditTool(QWidget *parent)
     m_SaveNodeBtn.setShortcut(QKeySequence(QString("Ctrl+S")));
     m_SaveNodeBtn.setFocusPolicy(Qt::FocusPolicy::WheelFocus);
 
+    // 测试代码
+    m_TestBtn.setParent(this);
+ 
+  
+    // 测试代码结束
+
     connect(m_pLoadFileAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_LoadFileAction_Triggered, Qt::ConnectionType::DirectConnection);
     connect(m_pSaveFileAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_SaveDataAction_Triggered, Qt::ConnectionType::DirectConnection);
     connect(m_pImportMapAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_ImportMapAction_Triggered, Qt::ConnectionType::DirectConnection);
@@ -132,6 +138,7 @@ void CMapEditTool::resizeEvent(QResizeEvent * event)
     m_NodeNameLabel.setGeometry (iw - WIDTH_MENU + 5,      145,                 85             , heightOfmenu);
     m_NodeNameEdit.setGeometry  (iw - 105,                 145,                 100            , heightOfmenu);
     m_SaveNodeBtn.setGeometry   (iw - WIDTH_MENU + 5,      175,                 190            , heightOfmenu);
+    m_TestBtn.setGeometry(iw - WIDTH_MENU + 5, 210, 190, heightOfmenu);
 
     QWidget::resizeEvent(event);  
 }
@@ -188,7 +195,9 @@ int CMapEditTool::fn_Recv_ViewModeAction_Triggered()
     m_pViewModeAction->setChecked(true);
     m_pEditModeAction->setChecked(false);
     m_MapDisplay.SetEditMode(false);
-    
+    // 切换模式的时候，清空左侧
+    m_NodePosXEdit.clear();
+    m_NodePosYEdit.clear();
     m_MapDisplay.update();
     return NORMAL_RETURN;
 }
@@ -198,6 +207,9 @@ int CMapEditTool::fn_Recv_EditModeAction_Triggered()
     m_pViewModeAction->setChecked(false);
     m_pEditModeAction->setChecked(true);
     m_MapDisplay.SetEditMode(true);
+    // 切换模式的时候，清空左侧
+    m_NodePosXEdit.clear();
+    m_NodePosYEdit.clear();
     m_MapDisplay.update();
     return NORMAL_RETURN;
 }
@@ -207,10 +219,6 @@ int CMapEditTool::fn_Recv_ShowNodeIdAction_Triggered()
     CSystemData::GetSystemData()->SetShowNodeId(true);
     m_pShowNodeIdAction->setEnabled(false);
     m_pHideNodeIdAction->setEnabled(true);
-
-
-
-    m_MapDisplay.update();
     return NORMAL_RETURN;
 }
 
@@ -219,7 +227,6 @@ int CMapEditTool::fn_Recv_HideNodeIdAction_Triggered()
     CSystemData::GetSystemData()->SetShowNodeId(false);
     m_pShowNodeIdAction->setEnabled(true);
     m_pHideNodeIdAction->setEnabled(false);
-    m_MapDisplay.update();
     return NORMAL_RETURN;
 }
 
@@ -276,15 +283,11 @@ int CMapEditTool::fn_Recv_ModeSwitchShortcut_Activated()
 
     if (bEditMode)
     {
-        m_pViewModeAction->setChecked(true);
-        m_pEditModeAction -> setChecked(false);
-        m_MapDisplay.SetEditMode(false);
+        m_pViewModeAction->trigger();
     }
     else
     {
-        m_pViewModeAction->setChecked(false);
-        m_pEditModeAction->setChecked(true);
-        m_MapDisplay.SetEditMode(true);
+        m_pEditModeAction->trigger();
     }
 
     m_MapDisplay.update();

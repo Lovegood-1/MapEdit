@@ -24,8 +24,13 @@ class CSimpleButton : public  QPushButton
 
 	void CSimpleButton::animationConfig();
 	void CSimpleButton::incRadius();
-
-
+	void CSimpleButton::decRadius();
+	void setText(const QString& text);
+	void paintText();
+	void paintEvent(QPaintEvent* event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
+	void showEvent(QShowEvent* event);
 public:
 
 	int radius;
@@ -44,9 +49,13 @@ public:
 
 	//std::unique_ptr<QTimer> timer;
 
-	QTimer* timer;
+	QTimer* timer =   new QTimer(this);
+	;
 };
 
+ 
 
 
 #endif   
+
+ 
