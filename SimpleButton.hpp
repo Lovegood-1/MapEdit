@@ -1,3 +1,13 @@
+/**
+ * @brief     花式按键类
+ * @details    
+ * @mainpage 
+ * @reference https://github.com/Rev-RoastedDuck/QT-material-widgets.git  
+ * @reference https://www.bilibili.com/video/BV1jp4y1A7xT/?spm_id_from=333.788.recommend_more_video.5&vd_source=e07ba382c7723740f058bd78a2e85fe7
+ * @date 2023-10-28
+ */
+
+
 #ifndef SIMPLEBUTTON_H
 #define SIMPLEBUTTON_H
 
