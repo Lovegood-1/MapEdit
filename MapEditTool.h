@@ -1,17 +1,13 @@
 
-/*
-* 总体的窗体布局，包括 总窗体所有部件
-* 功能：
-    1. 通过按键设置一些状态
-    2. 引出关键对象 -> CMapDisplay
-*/
+/**
+ * @brief     唯一入口文件
+ * @details   主窗口（包括窗口上的菜单、按钮、MapDisplay主控件等）
+ * @mainpage  main.cpp -> this file -> MapDisplay.cpp
+ * @date 2023-10-24
+ */
 
 #ifndef MAPEDITTOOL_H
 #define MAPEDITTOOL_H
-
-#include "Macro.h"
-#include "Systemdata.h"
-#include "MapDisplay.h"
 
 #include <QMenu>
 #include <QLabel>
@@ -28,8 +24,10 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
-
-
+#include "Macro.h"
+#include "Systemdata.h"
+#include "MapDisplay.h"
+#include "SimpleButton.hpp"
 
 class CMapEditTool : public QWidget
 {
@@ -40,7 +38,6 @@ public:
     ~CMapEditTool();
 
     void resizeEvent(QResizeEvent* event) override;
-
 
 private:
     /*
@@ -76,7 +73,8 @@ private:
 
     QLabel m_NodeTypeLabel;     QComboBox m_NodeTypeComboBox;
     QLabel m_NodeNameLabel;     QLineEdit m_NodeNameEdit;
-    QPushButton m_SaveNodeBtn;
+    CSimpleButton m_SaveNodeBtn;
+    CSimpleButton m_TestBtn;
 
 protected slots:
     int fn_Recv_LoadFileAction_Triggered();

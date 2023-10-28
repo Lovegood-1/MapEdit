@@ -1,3 +1,10 @@
+/**
+ * @brief     基础数据类型
+ * @details   基础据类型，是地点的抽象。
+ * @mainpage  Graph.cpp -> this file -> END
+ * @date 2023-10-24
+ */
+
 #ifndef NODE_H
 #define NODE_H
 

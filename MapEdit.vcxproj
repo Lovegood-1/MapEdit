@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="a.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="MapDisplay.cpp" />
@@ -100,6 +101,7 @@
     <QtMoc Include="MapDisplay.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SimpleButton.hpp" />
     <ClInclude Include="SystemData.h" />
   </ItemGroup>
   <ItemGroup>

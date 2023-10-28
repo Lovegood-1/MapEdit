@@ -62,11 +62,11 @@ void CMapDisplay::paintEvent(QPaintEvent* event)
 	{
 		painter.drawLine(QLineF(
 			QPoint(
-				m_dStartX + cite->m_Node1.m_dNodePosX * m_dScale,
-				m_dStartY + cite->m_Node1.m_dNodePosY * m_dScale),
-			QPointF(
-				m_dStartX + cite->m_Node2.m_dNodePosX * m_dScale,
-				m_dStartY + cite->m_Node2.m_dNodePosY * m_dScale)));
+				fn_TransA2B(cite->m_Node1.m_dNodePosX, m_dStartX, m_dScale),
+				fn_TransA2B(cite->m_Node1.m_dNodePosY, m_dStartY, m_dScale)), // 从地图系到窗口系的转换 dStartPoint + iPos_Map* dScale;
+			QPoint(
+				fn_TransA2B(cite->m_Node2.m_dNodePosX, m_dStartX, m_dScale),
+				fn_TransA2B(cite->m_Node2.m_dNodePosY, m_dStartY, m_dScale))));
 		cite++;
 	}
 
@@ -85,10 +85,10 @@ void CMapDisplay::paintEvent(QPaintEvent* event)
 			painter.setPen(Qt::PenStyle::NoPen);
 			painter.setBrush(cit->m_NodeType == NodeType::Node_Road ? m_pSystem->GetRoadNodeBrush() : m_pSystem->GetBuildingNodeBrush());
 			painter.drawEllipse(QRectF(
-				m_dStartX + (cit->m_dNodePosX - NODE_RADIUS) * m_dScale,
+				m_dStartX + (cit->m_dNodePosX - NODE_RADIUS) * m_dScale, 
 				m_dStartY + (cit->m_dNodePosY - NODE_RADIUS) * m_dScale,
 				DIAMETER * m_dScale,
-				DIAMETER * m_dScale));
+				DIAMETER * m_dScale));                                // 从地图系到窗口系的转换
 
 			// 显示点的id
 			painter.setPen(idPen);
@@ -137,7 +137,7 @@ void CMapDisplay::paintEvent(QPaintEvent* event)
 		painter.setPen(m_pSystem->GetEditAreaPen());
 		painter.setBrush(Qt::BrushStyle::NoBrush);
 		painter.drawRect(QRectF(
-			QPoint(m_dStartX + m_dEditAreaX1 * m_dScale, m_dStartY + m_dEditAreaY1 * m_dScale),
+			QPoint(m_dStartX + m_dEditAreaX1 * m_dScale, m_dStartY + m_dEditAreaY1 * m_dScale),   // 从地图系到窗口系的转换
 			QPoint(m_dStartX + m_dEditAreaX2 * m_dScale, m_dStartY + m_dEditAreaY2 * m_dScale)
 		)); // TODO-坐标变换
 	}
@@ -149,8 +149,8 @@ void CMapDisplay::paintEvent(QPaintEvent* event)
 		painter.setPen(m_pSystem->GetConnectPen());
 		painter.drawLine(QLineF(
 			QPoint(
-				m_dStartX + dConnectNode1PosX * m_dScale,
-				m_dStartY + dConnectNode2PosY * m_dScale), 
+				fn_TransA2B(dConnectNode1PosX, m_dStartX, m_dScale),
+				fn_TransA2B(dConnectNode2PosY, m_dStartY, m_dScale)),
 			QPointF(m_EMovePoint)));
 	}
 
@@ -268,7 +268,7 @@ void CMapDisplay::mousePressEvent(QMouseEvent* event)
 		{
 			m_bLBtnPressed = true;
 			// dMousePosX - 图片坐标
-			double dMousePosX = (m_EClickPoint.x() - m_dStartX) / m_dScale;
+			double dMousePosX = (m_EClickPoint.x() - m_dStartX) / m_dScale;  // 从窗口系到地图系的转换
 			double dMousePosY = (m_EClickPoint.y() - m_dStartY) / m_dScale;
  
 
@@ -294,8 +294,9 @@ void CMapDisplay::mousePressEvent(QMouseEvent* event)
 				m_dEditAreaX1!=0.0 &&
 				m_dEditAreaY1!=0.0 &&
 				m_dEditAreaX2!=0.0 &&
-				m_dEditAreaY2!=0.0 ) // ?que:这个不用判断是否在内部吗？
+				m_dEditAreaY2!=0.0 )  
 			{
+				// 编辑模式 - 右击 ： 删除功能
 				QMenu menu;
 				const char *pDeleteNodes = "Delete Nodes";
 				const char* pDeleteEdges = "Delete Edges";
@@ -312,34 +313,45 @@ void CMapDisplay::mousePressEvent(QMouseEvent* event)
 					fn_DeleteEdges();
 					update();
 				}
-
-
 			}
 			else
 			{
+				// 编辑模式：边的创建功能
+				// 
+				// 因为边创建可能会走一半，所以会有边创建缓存(m_ConnectNode1,m_ConnectNode2)
+	 
+				//// 边的创建功能: 获取起始点
 				if (m_ConnectNode1.m_iNodeId == ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
 				{
 					fn_GetNodeId(
-						((double)m_EClickPoint.x() - m_dStartX) / m_dScale,
+						((double)m_EClickPoint.x() - m_dStartX) / m_dScale,             // 从窗口系到地图系的转换
 						((double)m_EClickPoint.y() - m_dStartY) / m_dScale,
 						m_ConnectNode1);
 				}
 				else if (!m_bCtrlPressed && m_ConnectNode1.m_iNodeId != ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
 				{
 					fn_GetNodeId(
-						((double)m_EClickPoint.x() - m_dStartX) / m_dScale,
+						((double)m_EClickPoint.x() - m_dStartX) / m_dScale,            // 从窗口系到地图系的转换
 						((double)m_EClickPoint.y() - m_dStartY) / m_dScale,
 						m_ConnectNode1);
+
+					if (m_ConnectNode1.m_iNodeId != ERROR_NODE_ID)
+					{
+						m_ConnectNode1 = CNode();
+						m_ConnectNode2 = CNode();
+					}
 				}
+				//  第二个点的选择与创建
 				else if (m_bCtrlPressed && m_ConnectNode1.m_iNodeId != ERROR_NODE_ID && m_ConnectNode2.m_iNodeId == ERROR_NODE_ID)
 				{
-					// 应该创建新的边了
-					// 1 如果选中第二个点 2 去重复
+					
 					fn_GetNodeId(
-						((double)m_EClickPoint.x() - m_dStartX) / m_dScale,
+						((double)m_EClickPoint.x() - m_dStartX) / m_dScale,            // 从窗口系到地图系的转换
 						((double)m_EClickPoint.y() - m_dStartY) / m_dScale,
 						m_ConnectNode2);
 
+
+					
 					if (m_ConnectNode2.m_iNodeId != ERROR_NODE_ID)
 					{
 						bool bCreate = true;
@@ -377,10 +389,13 @@ void CMapDisplay::mousePressEvent(QMouseEvent* event)
 						m_ConnectNode1 = CNode();
 						m_ConnectNode2 = CNode();
 						update();
-
 					}
-
+			 
 				}
+				update();
+			
+ 
+
 			}
 		}
 	}
@@ -393,9 +408,6 @@ void CMapDisplay::mousePressEvent(QMouseEvent* event)
 			m_bLBtnPressed = true;
 		}
 	}
-
-
-
 
 #ifdef USE_OPENGL
 	QOpenGLWidget::mousePressEvent(event);
@@ -441,7 +453,7 @@ void CMapDisplay::mouseDoubleClickEvent(QMouseEvent* event)
 		// 居中算法
 		if (event->button() == Qt::MouseButton::LeftButton)
 		{
-			m_dStartX = (width() - m_pGraph->m_MapImage.width()) / 2.0;
+			m_dStartX = (width() - m_pGraph->m_MapImage.width()) / 2.0;         
 			m_dStartY = (height() - m_pGraph->m_MapImage.height()) / 2.0;
 			m_dScale = 1.0;
 			update();
@@ -581,3 +593,32 @@ int CMapDisplay::fn_DeleteEdges()
 
 	return NORMAL_RETURN;
 }
+
+
+
+template<typename T>
+inline double CMapDisplay::fn_TransMap2Window(T iPos_Map, double dStartPoint, double dScale)
+{
+	/***************************************************************
+	  *  @brief     函数作用：从地图坐标系转为窗口坐标系
+	  *  @param     参数：dStartPoint-窗口坐标系下地图原点的值；dScale-窗口坐标系对地图坐标系的缩放尺寸
+	  *  @note      备注
+	  *  @Sample usage:     函数的使用方法
+	 **************************************************************/
+
+	return  dStartPoint + iPos_Map * dScale;
+}
+
+template<typename T>
+inline double CMapDisplay::fn_TransA2B(T iPos_A, double dAStartPoint_B, double dScaleA_B)
+{
+	/***************************************************************
+	  *  @brief     函数作用：从地图坐标系转为窗口坐标系
+	  *  @param     参数：dStartPoint-窗口坐标系下地图原点的值；dScale-窗口坐标系对地图坐标系的缩放尺寸
+	  *  @note      备注
+	  *  @Sample usage:     函数的使用方法
+	 **************************************************************/
+
+	return  dAStartPoint_B + iPos_A * dScaleA_B;
+}
+

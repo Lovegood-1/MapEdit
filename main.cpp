@@ -1,11 +1,11 @@
-/*
-±¾ÏîÄ¿µÄÎ¨Ò»Ö÷Èë¿Ú 
-¹¦ÄÜ£ºÆô¶¯Ó¦ÓÃ£¬¿ªÆô´°¿Ú CMapEditTool¡£CMapEditTool ÊµÀı°üº¬ÁËËùÓĞ¼ÆËã¡¢ÏÔÊ¾µÄ¹¦ÄÜ
-ÏÂÒ»¸ö¹¦ÄÜÀà£º
-    CMapEditTool
-*/
+/**
+ * @brief    å”¯ä¸€å…¥å£æ–‡ä»¶
+ * @details 
+ * @mainpage ä¸‹ä¸€ä¸ªæ–‡ä»¶: MapEditTool.h
+ * @date 2023-10-24
+ */
 
- 
+
 #include "MapEditTool.h"
 #include <QApplication>
 

@@ -1,3 +1,11 @@
+/**
+ * @brief     å­çª—å£æ–‡ä»¶
+ * @details   é‡è¦çš„ç»˜å›¾å­ä¸²å£ï¼Œå®ç°ç¼©æ”¾ã€é€‰ç‚¹ç­‰åŠŸèƒ½
+ * @mainpage  MapDisplay.cpp -> this file -> SystemData.cpp
+ * @date 2023-10-24
+ */
+
+
 #ifndef MAPDISPLAY_H
 #define MAPDISPLAY_H
 
@@ -13,14 +21,14 @@
 #include <QWheelEvent>
 #include <QMouseEvent>
 
-// ¶¯Ì¬ include
+ 
 #ifdef USE_OPENGL
 #include <QOpenGLWidget>
 #else
 #include <qwidget>
 #endif
 
-// ¶¯Ì¬¶¨Òå£¡£¡£¡
+ 
 #ifdef USE_OPENGL
 class CMapDisplay : public QOpenGLWidget
 #else
@@ -34,8 +42,7 @@ public:
 	~CMapDisplay();
 
 
-	// ËùÓĞ´°¿Ú¶¼ÓĞ»æ»­¡¢Ëõ·Å¹¦ÄÜ£¬ÕâÀïÖØĞ´ËûÃÇ
-	void paintEvent(QPaintEvent* event) override;
+ 	void paintEvent(QPaintEvent* event) override;
 	void resizeEvent(QResizeEvent* event) override;
 	void wheelEvent(QWheelEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
@@ -50,9 +57,17 @@ public:
 	inline const bool& GetEditMode() const				  { return m_bEditMode; }
 
 private:
+	// ä¸€äº›ååº”çš„å‡½æ•°
  	int fn_GetNodeId(const double& dPosX, const double& dPosY, CNode& node);
 	int fn_DeleteNodes();
 	int fn_DeleteEdges();
+
+	// 
+	template<typename T>
+	inline double fn_TransMap2Window(T iPos_Map ,double dStartPoint, double dScale);
+
+	template<typename T>
+	inline double  fn_TransA2B(T iPos_A, double dAStartPoint_B, double dScaleA_B);
 
 signals:
 	void Signal_NodeCreated(double dPosX, double dPosY);
@@ -76,16 +91,15 @@ private:
 	QPoint m_EClickPoint;
 	QPoint m_EMovePoint;
 
-	// ´´½¨Ê±ºòµÄ¶¯Ì¬Á¬½ÓÏß
-	CNode m_ConnectNode1;
+ 	CNode m_ConnectNode1;
 	CNode m_ConnectNode2;
 
-	// ¿òÑ¡±à¼­ÇøÓò¹¦ÄÜµÄ²ÎÊı
-	double m_dEditAreaX1;  // µã»÷
-	double m_dEditAreaY1;  // µã»÷
-	double m_dEditAreaX2;  // ÒÆ¶¯
-	double m_dEditAreaY2;  // ÒÆ¶¯
+ 	double m_dEditAreaX1;  
+	double m_dEditAreaY1;  
+	double m_dEditAreaX2;   
+	double m_dEditAreaY2;   
 
 };
 
 #endif
+

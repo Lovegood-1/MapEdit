@@ -97,6 +97,9 @@
     <ClCompile Include="MapDisplay.cpp">
       <Filter>Source Files\Widget\MapEditTool\MapDisplay</Filter>
     </ClCompile>
+    <ClCompile Include="a.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Macro.h">
@@ -116,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleButton.hpp">
+      <Filter>Header Files\Widget\MapEditTool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
