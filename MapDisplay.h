@@ -21,14 +21,14 @@
 #include <QWheelEvent>
 #include <QMouseEvent>
 
-// ��̬ include
+ 
 #ifdef USE_OPENGL
 #include <QOpenGLWidget>
 #else
 #include <qwidget>
 #endif
 
-// ��̬���壡����
+ 
 #ifdef USE_OPENGL
 class CMapDisplay : public QOpenGLWidget
 #else
@@ -42,8 +42,7 @@ public:
 	~CMapDisplay();
 
 
-	// ���д��ڶ��л滭�����Ź��ܣ�������д����
-	void paintEvent(QPaintEvent* event) override;
+ 	void paintEvent(QPaintEvent* event) override;
 	void resizeEvent(QResizeEvent* event) override;
 	void wheelEvent(QWheelEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
@@ -84,15 +83,13 @@ private:
 	QPoint m_EClickPoint;
 	QPoint m_EMovePoint;
 
-	// ����ʱ��Ķ�̬������
-	CNode m_ConnectNode1;
+ 	CNode m_ConnectNode1;
 	CNode m_ConnectNode2;
 
-	// ��ѡ�༭�����ܵĲ���
-	double m_dEditAreaX1;  // ���
-	double m_dEditAreaY1;  // ���
-	double m_dEditAreaX2;  // �ƶ�
-	double m_dEditAreaY2;  // �ƶ�
+ 	double m_dEditAreaX1;  
+	double m_dEditAreaY1;  
+	double m_dEditAreaX2;   
+	double m_dEditAreaY2;   
 
 };
 

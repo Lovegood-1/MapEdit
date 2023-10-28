@@ -9,10 +9,6 @@
 #ifndef MAPEDITTOOL_H
 #define MAPEDITTOOL_H
 
-#include "Macro.h"
-#include "Systemdata.h"
-#include "MapDisplay.h"
-
 #include <QMenu>
 #include <QLabel>
 #include <QAction>
@@ -28,8 +24,10 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
-
-
+#include "Macro.h"
+#include "Systemdata.h"
+#include "MapDisplay.h"
+#include "SimpleButton.h"
 
 class CMapEditTool : public QWidget
 {
@@ -77,6 +75,7 @@ private:
     QLabel m_NodeTypeLabel;     QComboBox m_NodeTypeComboBox;
     QLabel m_NodeNameLabel;     QLineEdit m_NodeNameEdit;
     QPushButton m_SaveNodeBtn;
+    CSimpleButton m_TestBtn;
 
 protected slots:
     int fn_Recv_LoadFileAction_Triggered();

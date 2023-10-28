@@ -83,10 +83,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="a.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="MapDisplay.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="SimpleButton.cpp" />
     <ClCompile Include="SystemData.cpp" />
     <QtRcc Include="Resource.qrc" />
     <QtMoc Include="MapEditTool.h" />
@@ -100,6 +102,7 @@
     <QtMoc Include="MapDisplay.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SimpleButton.h" />
     <ClInclude Include="SystemData.h" />
   </ItemGroup>
   <ItemGroup>

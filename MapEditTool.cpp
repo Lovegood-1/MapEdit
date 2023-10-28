@@ -105,6 +105,8 @@ CMapEditTool::CMapEditTool(QWidget *parent)
     connect(m_pHideNodeIdAction, &QAction::triggered, this, &CMapEditTool::fn_Recv_HideNodeIdAction_Triggered, Qt::ConnectionType::DirectConnection);
 
     fn_LoadStyleSheet();
+ 
+   
 }
 
 CMapEditTool::~CMapEditTool()
@@ -178,10 +180,6 @@ int CMapEditTool::fn_Recv_ImportMapAction_Triggered()
         msgBox.setText(tr("Load File Fail"));
         msgBox.exec();
     }
-
-
-
-
     return NORMAL_RETURN;
 }
 
@@ -190,8 +188,8 @@ int CMapEditTool::fn_Recv_ViewModeAction_Triggered()
     m_pViewModeAction->setChecked(true);
     m_pEditModeAction->setChecked(false);
     m_MapDisplay.SetEditMode(false);
+    
     m_MapDisplay.update();
-
     return NORMAL_RETURN;
 }
 
@@ -209,6 +207,9 @@ int CMapEditTool::fn_Recv_ShowNodeIdAction_Triggered()
     CSystemData::GetSystemData()->SetShowNodeId(true);
     m_pShowNodeIdAction->setEnabled(false);
     m_pHideNodeIdAction->setEnabled(true);
+
+
+
     m_MapDisplay.update();
     return NORMAL_RETURN;
 }
@@ -278,7 +279,6 @@ int CMapEditTool::fn_Recv_ModeSwitchShortcut_Activated()
         m_pViewModeAction->setChecked(true);
         m_pEditModeAction -> setChecked(false);
         m_MapDisplay.SetEditMode(false);
-
     }
     else
     {
