@@ -75,6 +75,7 @@ class CSimpleButton : public  QPushButton
 
 	 }
 
+	 // �޸İ뾶
 	 void CSimpleButton::incRadius() {
 		 radius += radiusVar;
 		 if (radius > max_radius) {
@@ -84,7 +85,7 @@ class CSimpleButton : public  QPushButton
 		 update();
 	 }
 
-
+	 // �޸İ뾶
 	 void CSimpleButton::decRadius() {
 		 radius -= radiusVar;
 		 if (radius < 0) {
